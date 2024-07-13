@@ -1,4 +1,4 @@
-export const getAllPosts = async () => {
+/*export const getAllPosts = async () => {
   const response = await fetch('https://jsonplaceholder.typicode.com/posts');
 
   if (!response.ok) throw new Error('Unable to fentch posts.');
@@ -22,4 +22,17 @@ export const getPostsBySearch = async (search: string) => {
   if (!response.ok) throw new Error('Unable to fetch posts.');
 
   return response.json();
-};
+};*/
+import { prisma } from '@/lib/prisma';
+
+export function getPostById(id: string) {
+  return prisma.post.findUnique({
+    where: {
+      id,
+    },
+  });
+}
+
+export function getAllPosts() {
+  return prisma.post.findMany();
+}

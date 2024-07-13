@@ -1,20 +1,27 @@
-'use client';
+import { getAllPosts } from '@/services/getPosts';
 import { Metadata } from 'next';
-import { Posts } from '@/components/posts/Posts';
-import { PostSearch } from '@/components/postSearch/PostSearch';
-import styles from './style.module.scss';
+import Link from 'next/link';
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: 'Blog | Next App',
 };
 
+export const revalidate = 10;
 
-export default function Blog() {
+export default async function Blog() {
+  const posts = await getAllPosts();
+
   return (
     <>
       <h1>Blog page</h1>
-      <PostSearch />
-      <Posts />
+      <Link href="/blog/new">Add new post</Link>
+      <ul>
+        {posts.map((post: any) => (
+          <li key={post.id}>
+            <Link href={`/blog/${post.id}`}>{post.title}</Link>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

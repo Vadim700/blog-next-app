@@ -1,25 +1,13 @@
-import { Metadata } from 'next';
-import styles from './style.module.scss';
 import { getAllPosts, getPostById } from '@/services/getPosts';
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { removePost } from '../actions';
 
 type Props = {
   params: {
     id: string;
   };
 };
-
-async function getData(id: string) {
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${id}`,
-    {
-      next: {
-        revalidate: 60, // per seconds update data
-      },
-    },
-  );
-
-  return response.json();
-}
 
 export async function generateStaticParams() {
   const posts: any[] = await getAllPosts();
@@ -32,20 +20,30 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params: { id },
 }: Props): Promise<Metadata> {
-  const post = await getData(id);
+  const post = await getPostById(id);
 
   return {
-    title: post.title,
+    title: post?.title,
   };
 }
 
 export default async function Post({ params: { id } }: Props) {
   const post = await getPostById(id);
 
+  if (!post) {
+    return <h1>Post not found</h1>
+  }
+
   return (
     <>
-      <h1 className={styles.title}>{post.title}</h1>
-      <p className={styles.text}>{post.body}</p>
+      <h1>{post?.title}</h1>
+      <p>{post?.body}</p>
+
+      <form action={removePost.bind(null, id)}>
+        <input type="submit" value="delete post" />
+      </form>
+
+      <Link href={`/blog/${id}/edit`}>Edit</Link>
     </>
   );
 }
