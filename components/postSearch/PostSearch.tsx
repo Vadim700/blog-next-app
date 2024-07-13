@@ -1,9 +1,7 @@
 'use client';
 import { FormEventHandler, useState } from 'react';
 import styles from './style.module.scss';
-import { usePosts } from '@/store';
 import useSWR from 'swr';
-import { getPostsBySearch } from '@/services/getPosts';
 
 type Props = {
   onSearch: (value: any[]) => void;
@@ -39,3 +37,7 @@ function PostSearch() {
 }
 
 export { PostSearch };
+  function getPostsBySearch(search: string) {
+    throw new Error('Function not implemented.');
+  }
+

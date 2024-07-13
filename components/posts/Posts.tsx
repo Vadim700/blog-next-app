@@ -21,7 +21,7 @@ function Posts() {
     <h3 className={styles.errorMes}>Loading...</h3>
   ) : (
     <ul className={styles.list}>
-      {posts.map((post: any) => {
+      {posts?.map((post: any) => {
         return (
           <li key={post.id} className={styles.listItem}>
             <span>{post.id}</span>
