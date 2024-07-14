@@ -1,6 +1,5 @@
 import { getPostById } from '@/services/getPosts';
 import { updatePost } from '../../actions';
-import style from './style.module.scss';
 
 type Props = {
   params: {
@@ -15,7 +14,7 @@ export default async function Profile({ params: { id } }: Props) {
     <div>
       <h1>Profile of {post?.title}</h1>
 
-      <form className={style.form} action={updatePost}>
+      <form className='form' action={updatePost}>
         <input
           type="text"
           placeholder="title"
@@ -28,7 +27,7 @@ export default async function Profile({ params: { id } }: Props) {
           required
           name="body"
           defaultValue={post?.body}
-          className={style.editText}
+          className='editText'
         />
         <input type="hidden" name="id" value={post?.id} />
         <div>
